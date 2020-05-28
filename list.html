@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <?!= HtmlService.createHtmlOutputFromFile('js').getContent(); ?>
+    <?!= HtmlService.createHtmlOutputFromFile('css').getContent(); ?>
+  </head>
+  <body>
+    <h1><? output.append('<a href="' + url + '">' + title + '</a>') ?></h1>
+    <div class="tab">
+      <ul>
+        <li><? output.append('<a href="' + url + '?p1=3&p2=' + index[0] + '">' + index[0] + '</a>') ?></li>
+        <li><? output.append('<a href="' + url + '?p1=3&p2=' + index[1] + '">' + index[1] + '</a>') ?></li>
+        <li><? output.append('<a href="' + url + '?p1=3&p2=' + index[2] + '">' + index[2] + '</a>') ?></li>
+        <li><? output.append('<a href="' + url + '?p1=3&p2=' + index[3] + '">' + index[3] + '</a>') ?></li>
+        <li><? output.append('<a href="' + url + '?p1=3&p2=' + index[4] + '">' + index[4] + '</a>') ?></li>
+        <li><? output.append('<a href="' + url + '?p1=3&p2=' + index[5] + '">' + index[5] + '</a>') ?></li>
+        <li><? output.append('<a href="' + url + '?p1=3&p2=' + index[6] + '">' + index[6] + '</a>') ?></li>
+        <li><? output.append('<a href="' + url + '?p1=3&p2=' + index[7] + '">' + index[7] + '</a>') ?></li>
+        <li><? output.append('<a href="' + url + '?p1=3&p2=' + index[8] + '">' + index[8] + '</a>') ?></li>
+        <li><? output.append('<a href="' + url + '?p1=3&p2=' + index[9] + '">' + index[9] + '</a>') ?></li>
+      </ul>
+    </div>
+    <h2><?= value ?></h2>
+    <table class="players-table">
+      <tr>
+      <? for (var i = 0; i < data.length; i++) { ?>
+        <td colspan="2" class="name"><ruby><?= data[i][0] ?><rt><?= data[i][1] ?></rt></ruby>
+          <? output.append('(<a href="' + url + '?p1=5&p2=' + data[i][4] + '">'+ data[i][4] + '</a>)') ?>
+        </td>
+      </tr>
+      <tr rowspan="2">
+        <td><? output.append('<img src=' + data[i][9] + ' >'); ?></td>
+        <td>
+          <ul>
+            <li>生年月日： <?= Utilities.formatDate(new Date(data[i][3]), 'Asia/Tokyo', 'yyyy/M/d') ?></li>
+            <li>出身： <? output.append('<a href="' + url + '?p1=6&p2=' + data[i][5] + '">'+ data[i][5] + '</a>') ?></li>
+            <li>中学： <? output.append('<a href="' + url + '?p1=7&p2=' + data[i][6] + '">'+ data[i][6] + '</a>') ?></li>
+            <li>高校： <? output.append('<a href="' + url + '?p1=8&p2=' + data[i][7] + '">'+ data[i][7] + '</a>') ?></li>
+            <li>大学： <? output.append('<a href="' + url + '?p1=9&p2=' + data[i][8] + '">' + data[i][8] + '</a>') ?></li>
+          </ul>
+        </td>
+      </tr>
+      <? } ?>
+    </table>
+  </body>
+</html>
