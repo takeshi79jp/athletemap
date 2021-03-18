@@ -1,0 +1,69 @@
+{
+  "timeZone": "Asia/Tokyo",
+  "dependencies": {},
+  "webapp": {
+    "executeAs": "USER_ACCESSING",
+    "access": "ANYONE"
+  },
+  "exceptionLogging": "STACKDRIVER",
+  "executionApi": {
+    "access": "MYSELF"
+  },
+  "runtimeVersion": "V8",
+  "sheets": {
+    "macros": [
+      {
+        "menuName": "無題のマクロ",
+        "functionName": "myFunction"
+      },
+      {
+        "menuName": "無題のマクロ 1",
+        "functionName": "myFunction1"
+      },
+      {
+        "menuName": "無題のマクロ 2",
+        "functionName": "myFunction2"
+      },
+      {
+        "menuName": "無題のマクロ 3",
+        "functionName": "myFunction3"
+      },
+      {
+        "menuName": "無題のマクロ 4",
+        "functionName": "myFunction4"
+      },
+      {
+        "menuName": "無題のマクロ 5",
+        "functionName": "myFunction5"
+      },
+      {
+        "menuName": "無題のマクロ 6",
+        "functionName": "myFunction6"
+      },
+      {
+        "menuName": "無題のマクロ 7",
+        "functionName": "myFunction7"
+      },
+      {
+        "menuName": "無題のマクロ 8",
+        "functionName": "myFunction8"
+      },
+      {
+        "menuName": "無題のマクロ 9",
+        "functionName": "myFunction9"
+      },
+      {
+        "menuName": "無題のマクロ 1",
+        "functionName": "myFunction1"
+      },
+      {
+        "menuName": "無題のマクロ 2",
+        "functionName": "myFunction2"
+      },
+      {
+        "menuName": "無題のマクロ",
+        "functionName": "myFunction"
+      }
+    ]
+  }
+}

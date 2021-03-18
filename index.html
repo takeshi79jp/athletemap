@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <?!= HtmlService.createHtmlOutputFromFile('js').getContent(); ?>
+    <?!= HtmlService.createHtmlOutputFromFile('css').getContent(); ?>
+  </head>
+  <body>
+    <header>
+      <h1 class="title"><?= title ?></h1>
+    </header>
+    <div class="contents">
+      <div class="index">
+        <ul class="index__list">
+          <li class="index__list__item"><? output._ = '<a href="' + url + '?p1=C&p2=' + index[0] + '">' + index[0] + '</a>' ?></li>
+          <li class="index__list__item"><? output._ = '<a href="' + url + '?p1=C&p2=' + index[1] + '">' + index[1] + '</a>' ?></li>
+          <li class="index__list__item"><? output._ = '<a href="' + url + '?p1=C&p2=' + index[2] + '">' + index[2] + '</a>' ?></li>
+          <li class="index__list__item"><? output._ = '<a href="' + url + '?p1=C&p2=' + index[3] + '">' + index[3] + '</a>' ?></li>
+          <li class="index__list__item"><? output._ = '<a href="' + url + '?p1=C&p2=' + index[4] + '">' + index[4] + '</a>' ?></li>
+          <li class="index__list__item"><? output._ = '<a href="' + url + '?p1=C&p2=' + index[5] + '">' + index[5] + '</a>' ?></li>
+          <li class="index__list__item"><? output._ = '<a href="' + url + '?p1=C&p2=' + index[6] + '">' + index[6] + '</a>' ?></li>
+          <li class="index__list__item"><? output._ = '<a href="' + url + '?p1=C&p2=' + index[7] + '">' + index[7] + '</a>' ?></li>
+          <li class="index__list__item"><? output._ = '<a href="' + url + '?p1=C&p2=' + index[8] + '">' + index[8] + '</a>' ?></li>
+          <li class="index__list__item"><? output._ = '<a href="' + url + '?p1=C&p2=' + index[9] + '">' + index[9] + '</a>' ?></li>
+        </ul>
+      </div>
+      <div class ="players">
+        <h2 class="players__index-text"><?= value ?></h2>
+        <section>
+          <? for (var i = 1; i < data.length; i++) { ?>
+            <h3 class="players__name"><ruby><?= data[i][0] ?><rt><?= data[i][1] ?></rt></ruby>
+              <? output._ = '(<a href="' + url + '?p1=E&p2=' + data[i][4] + '">'+ data[i][4] + '</a>)' ?>
+            </h3>
+            <div class="players__list">
+              <figure class="players__img">
+                <? output._ = '<img src=' + data[i][9] + ' >' ?>
+              </figure>
+              <ul class="players__detail">
+                <li>生年月日： <?= Utilities.formatDate(new Date(data[i][3]), 'Asia/Tokyo', 'yyyy/M/d') ?></li>
+                <li>出身： <? output._ = '<a href="' + url + '?p1=F&p2=' + data[i][5] + '">'+ data[i][5] + '</a>' ?></li>
+                <li>中学： <? output._ = '<a href="' + url + '?p1=G&p2=' + data[i][6] + '">'+ data[i][6] + '</a>' ?></li>
+                <li>高校： <? output._ = '<a href="' + url + '?p1=H&p2=' + data[i][7] + '">'+ data[i][7] + '</a>' ?></li>
+                <li>大学： <? output._ = '<a href="' + url + '?p1=I&p2=' + data[i][8] + '">' + data[i][8] + '</a>' ?></li>
+              </ul>
+            </div>
+          <? } ?>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>

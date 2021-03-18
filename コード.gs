@@ -1,20 +1,17 @@
-var dataSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("選手マスタ");
-var workSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("work");
-
 function doGet(e) {
-Logger.log("doGet start");
-  const PAGE = "list"
+Logger.log("doGe start");
+  const PAGE = "index"
   const TITLE = "Athlets Map";
-  const CONDTION_ALL = "ALL";
+  const CONDTION_INITIAL = "ア";
 
   var position = e.parameter.p1;
   var value = e.parameter.p2;
-  var page = e.parameter.p3;
 
   if (value == null) {
-    value = CONDTION_ALL;
+    value = CONDTION_INITIAL;
  
   }
+
   var indexArray = ["ア","カ","サ","タ","ナ","ハ","マ","ヤ","ラ","ワ"];
   var url = ScriptApp.getService().getUrl();
   var data = getFilteringData(position, value);    
@@ -29,8 +26,9 @@ Logger.log("doGet start");
 Logger.log("doGet end");
 
   return template.evaluate()
-  .setTitle(TITLE)
-  .addMetaTag('viewport', 'width=device-width, initial-scale=1');
+  .addMetaTag('viewport', 'width=device-width, initial-scale=1')
+  .setFaviconUrl('https://drive.google.com/uc?id=1ovJr-XS4dKXLSSR3i_avvl0SXQFZyHYJ&.png')
+  .setTitle(TITLE);
 }
 
 function getFilteringData(position, value) {
@@ -38,58 +36,48 @@ Logger.log("getFilteringData start");
 Logger.log("position = " + position);
 Logger.log("value = " + value);
 
-  const SORT_TYPE_ASC = true;
-  const SORT_TYPE_DESC = false;
-  const POSITION_INDEX = 3; // index
-  const POSTITION_BIRTHDAY = 4 // 生年月日
-  const DEFAULT_SORT_POSITION = 2; // カナ
-  const FIRST_SORT_POSITION = 5; // 年齢
-  const SECOND_SORT_POSITION = 4; // 生年月日
-  const HEADER_ROW = 1;
-  const INITIAL_ROW = 1;
-  const INITIAL_COL = 1;
+  const DATA_SHEET_NAME = "選手マスタ";
+  const WORK_SHEET_NAME = "WORK";
+
+  const POSITION_INDEX = "C"; // index
+  const POSITION_AGE = "E"; // 年齢
+
+  const DATA_RANGE = "!A:J"
+
+  const KANA_SORT = "B"; // カナ
+  const AGE_SORT = "E"; // 年齢
+  const BIRTHDAY_SORT = "D"; // 生年月日
+  // const SELECT_COLUMNS = "A,B,C,D,E,F,G,H,I,J";
+  const SELECT_COLUMNS = "*";
   
-  if (dataSheet.getFilter() != null) {
-    dataSheet.getFilter().remove();  
-  }
-  dataSheet.getActiveRange().getDataRegion().createFilter().sort(DEFAULT_SORT_POSITION, SORT_TYPE_ASC);
+  var dataSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(DATA_SHEET_NAME);
+  var workSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(WORK_SHEET_NAME);
+  var query;
 
+  workSheet.clear();
+
+  /* 初期検索 */
   if (position == null || value == null) {
-    dataSheet.getDataRange().copyTo(workSheet.getRange(INITIAL_ROW,INITIAL_COL));
+      /* 初期検索 */
+    query = "=query(" + DATA_SHEET_NAME + DATA_RANGE + ",\"select " + SELECT_COLUMNS + " where A is not null order by " + KANA_SORT + " ASC\"," + "1)"
 
-    workSheet.deleteRow(HEADER_ROW);
-    var data = workSheet.getDataRange().getValues();
+  } else if (position == POSITION_INDEX){
+    /* index検索 */
+    query = "=query(" + DATA_SHEET_NAME + DATA_RANGE + ",\"select " + SELECT_COLUMNS + " where "+ position + "='" + value + "' order by " + KANA_SORT + " ASC\"," + "1)"
 
-  } else if (position == POSITION_INDEX){    
-     var criteria = SpreadsheetApp.newFilterCriteria()
-    .whenTextEqualTo(value)
-    .build();
-    
-    var filter = dataSheet.getFilter().setColumnFilterCriteria(position, criteria).sort(DEFAULT_SORT_POSITION, SORT_TYPE_ASC);
-    
-    workSheet.clear();
-    filter.getRange().copyTo(workSheet.getRange(INITIAL_ROW,INITIAL_COL));
+  } else if (position == POSITION_AGE){
+    /* 年齢検索 */
+    query = "=query(" + DATA_SHEET_NAME + DATA_RANGE + ",\"select " + SELECT_COLUMNS + " where "+ position + "=" + value + " order by " + AGE_SORT + " DESC," + BIRTHDAY_SORT + " ASC\"," +  "1)"
 
-    workSheet.deleteRow(HEADER_ROW);        
-    var data = workSheet.getDataRange().getValues();
-    
   } else {
-     var criteria = SpreadsheetApp.newFilterCriteria()
-    .whenTextEqualTo(value)
-    .build();
-    
-    var filter = dataSheet.getFilter().setColumnFilterCriteria(position, criteria).sort(FIRST_SORT_POSITION, SORT_TYPE_DESC)
-    
-    workSheet.clear();
-    filter.getRange().copyTo(workSheet.getRange(INITIAL_ROW,INITIAL_COL));
-    
-    workSheet.deleteRow(HEADER_ROW);    
-    var data = workSheet.getDataRange().sort([{column: FIRST_SORT_POSITION, ascending: SORT_TYPE_DESC}, {column: SECOND_SORT_POSITION, ascending: SORT_TYPE_ASC}]).getValues();
+    /* 出身、中学、高校、大学検索 */
+
+    query = "=query(" + DATA_SHEET_NAME + DATA_RANGE + ",\"select " + SELECT_COLUMNS + " where "+ position + "='" + value + "' order by " + AGE_SORT + " DESC," + BIRTHDAY_SORT + " ASC\"," +  "1)"
 
   }
-    
-Logger.log("data = " + data);
-Logger.log("getFilteringData end");
+
+  workSheet.getRange(1,1).setValue(query)
+  var data = workSheet.getDataRange().getValues();
 
   return data;
 }
